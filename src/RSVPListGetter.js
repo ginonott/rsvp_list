@@ -13,6 +13,34 @@ class RSVPListGetter extends Component {
         }
     }
 
+    refreshList() {
+        var db = firebase.firestore();
+        this.setState({status: 'loading'}, () => {
+            db.collection("rsvp_list")
+                .get()
+                .then(resp => resp.docs)
+                .then(docs => docs.map(doc => ({id: doc.id, data: doc.data()})))
+                .then(docs => docs.map(doc => ({
+                    id: doc.id,
+                    attending: doc.data.attending,
+                    diet: doc.data.diet,
+                    bringingPlusOne: doc.data.bringingPlusOne,
+                    name: doc.data.name,
+                    partyRsvp: doc.data.partyRsvp,
+                    rsvped: doc.data.rsvped,
+                    songReq: doc.data.songReq
+                })))
+                .then(guests => {
+                    console.log(guests);
+                    this.setState({rsvplist: guests, status: 'done'});
+                })
+                .catch(e => {
+                    console.error('Oh no!', e);
+                    this.setState({status: 'error'})
+                })
+        })
+    }
+
     componentDidMount() {
         var config = {
             apiKey: "AIzaSyCS2Z-x2uAfhAtwfSu9EbYtXQDDoDIYYRc",
@@ -24,36 +52,11 @@ class RSVPListGetter extends Component {
           };
           
         firebase.initializeApp(config); // eslint-dsiable-line no-undef
-          
-        var db = firebase.firestore();
         const firestore = firebase.firestore();
         const settings = {timestampsInSnapshots: true};
         firestore.settings(settings);
 
-        console.log('a');
-        db.collection("rsvp_list")
-            .get()
-            .then(resp => resp.docs)
-            .then(docs => docs.map(doc => ({id: doc.id, data: doc.data()})))
-            .then(docs => docs.map(doc => ({
-                id: doc.id,
-                attending: doc.data.attending,
-                diet: doc.data.diet,
-                bringingPlusOne: doc.data.bringingPlusOne,
-                name: doc.data.name,
-                partyRsvp: doc.data.partyRsvp,
-                rsvped: doc.data.rsvped,
-                songReq: doc.data.songReq
-            })))
-            .then(guests => {
-                console.log(guests);
-                this.setState({rsvplist: guests, status: 'done'});
-            })
-            .catch(e => {
-                console.error('Oh no!', e);
-                this.setState({status: 'error'})
-            })
-
+        this.refreshList();
     }
 
     render() {
@@ -61,7 +64,11 @@ class RSVPListGetter extends Component {
             <div>
                 { this.state.status === 'loading' ? (<div className="loading"> Please Wait... </div>) 
                     : this.state.status === 'error' ? <div className="error"> Something went wrong, go get Gino </div>
-                    : <RSVPList rsvps={this.state.rsvplist}/> 
+                    : 
+                    <div> 
+                        <button onClick={() => {this.refreshList()}}> Refresh List </button>
+                        <RSVPList rsvps={this.state.rsvplist}/> 
+                    </div>
                 }
             </div>
         )
