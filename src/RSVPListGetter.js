@@ -28,7 +28,8 @@ class RSVPListGetter extends Component {
                     name: doc.data.name,
                     partyRsvp: doc.data.partyRsvp,
                     rsvped: doc.data.rsvped,
-                    songReq: doc.data.songReq
+                    songReq: doc.data.songReq,
+                    plusOneName: doc.data.plusOneName
                 })))
                 .then(guests => {
                     console.log(guests);
