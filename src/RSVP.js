@@ -8,7 +8,7 @@ class RSVP extends Component {
             diet,
             name,
             partyRsvp,
-            plusOneName = '',
+            plusOneName,
             rsvped,
             songReq
         } = this.props;

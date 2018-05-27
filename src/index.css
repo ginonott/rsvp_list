@@ -65,6 +65,11 @@ body {
   border-bottom: 1px solid lightgray;
   margin-bottom: 1em;
   font-size: 18px;
+  flex: 4;
+}
+
+.rsvp-sort {
+  flex: 1;
 }
 
 .rsvp-search-box {
