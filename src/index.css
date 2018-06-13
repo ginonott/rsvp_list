@@ -82,3 +82,31 @@ body {
   display: flex;
   flex-direction: row;
 }
+
+.happy-birthday {
+  margin: 1em;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.bday-pic > img {
+  width: 420px;
+  height: 420px;
+}
+
+.bday-msg {
+  display: flex;
+  flex-direction: row;
+}
+
+.bday-msg > h1 {
+  flex: 1;
+  background: linear-gradient(to right, transparent, orange , yellow, green, cyan, blue, violet, transparent);
+  -webkit-background-clip: text;
+	-webkit-text-fill-color: transparent;
+}
+
+.filler {
+  flex: 1;
+}
