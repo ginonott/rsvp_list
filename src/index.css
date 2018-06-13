@@ -48,6 +48,12 @@ body {
 
 .rsvp-attending {
   font-size: 24px;
+  border-radius: 50%;
+  border: 1px solid lightgray;
+  background-color: white;
+  padding: 7px;
+  width: 24px;
+  height: 24px;
 }
 
 .yes {

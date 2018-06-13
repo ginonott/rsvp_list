@@ -27,7 +27,7 @@ class RSVPList extends Component {
     sortByLastName(a, b) {
         if (a.name < b.name) {
             return -1;
-        } 
+        }
 
         if (a.name > b.name) {
             return 1;
@@ -60,6 +60,15 @@ class RSVPList extends Component {
     }
 
     render() {
+        const COLORS = [
+            ['#FFCDD2', '#FFEBEE'],
+            ['#FFCC80', '#FFE0B2'],
+            ['#FFF59D', '#FFF9C4'],
+            ['#C8E6C9', '#E8F5E9'],
+            ['#BBDEFB', '#E3F2FD'],
+            ['#CE93D8', '#F3E5F5']
+        ]
+
         let {
            rsvps = []
         } = this.props;
@@ -69,13 +78,13 @@ class RSVPList extends Component {
                     <select onChange={e => this.handleSortChange(e)} >
                         {Object.values(SORTS).map((sort) => <option {...(this.state.sort === sort ? {selected: true} : {})} value={sort}> {sort} </option>)}
                     </select>
-                    <input placeholder="Search for guests here..." type="text" className="rsvp-search" 
+                    <input placeholder="Search for guests here..." type="text" className="rsvp-search"
                         onChange={e => this.handleSearchChange(e)}/>
                 </div>
                 {rsvps.filter(rsvp => this.state.search.length > 0 ? rsvp.name.toUpperCase().includes(this.state.search) : true)
                     .sort(this.sort)
-                    .map(rsvp => (
-                    <RSVP key={rsvp.id} {...rsvp}/>
+                    .map((rsvp, indx) => (
+                    <RSVP pColor={COLORS[indx % COLORS.length][0]} sColor={COLORS[indx % COLORS.length][1]} key={rsvp.id} {...rsvp}/>
                     ))}
             </div>
         )

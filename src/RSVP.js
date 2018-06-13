@@ -10,17 +10,19 @@ class RSVP extends Component {
             partyRsvp,
             plusOneName,
             rsvped,
-            songReq
+            songReq,
+            pColor = 'white',
+            sColor = 'white'
         } = this.props;
         return (
-            <div className="rsvp">
-                <div className="rsvp-title">
+            <div className="rsvp" style={{marginTop: '1em'}}>
+                <div className="rsvp-title" style={{'backgroundColor': pColor}}>
                     <span className="rsvp-name"> {name} {bringingPlusOne ? <span className="rsvp-has-plus-one"> +1 </span> : null} </span>
-                    {attending ? <span className="fas fa-check rsvp-attending yes"/> : <span className="fas fa-times rsvp-attending no"/>}
+                    {attending === 'yes' ? <span className="fas fa-check rsvp-attending yes"/> : <span className="fas fa-times rsvp-attending no"/>}
                 </div>
-                <div className="rsvp-body">
+                <div className="rsvp-body" style={{'backgroundColor': sColor}}>
                     <div className="rsvp-date"> RSVP: {rsvped} </div>
-                    {partyRsvp.length > 0 ? <div> Party RSVP: {partyRsvp} </div> : null}
+                    {partyRsvp.length > 0 ? <div> Not Able To Attend: {partyRsvp} </div> : null}
                     {bringingPlusOne ? <div> Plus One's Name: {plusOneName} </div> : null}
                     {diet.length > 0 ? <div> Diet Restrictions: {diet} </div> : null}
                     {songReq.length > 0 ? <div> Song Requests: {songReq} </div> : null}
