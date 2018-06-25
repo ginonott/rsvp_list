@@ -12,7 +12,8 @@ class RSVP extends Component {
             rsvped,
             songReq,
             pColor = 'white',
-            sColor = 'white'
+            sColor = 'white',
+            guestCount
         } = this.props;
         return (
             <div className="rsvp" style={{marginTop: '1em'}}>
@@ -26,6 +27,7 @@ class RSVP extends Component {
                     {bringingPlusOne ? <div> Plus One's Name: {plusOneName} </div> : null}
                     {diet.length > 0 ? <div> Diet Restrictions: {diet} </div> : null}
                     {songReq.length > 0 ? <div> Song Requests: {songReq} </div> : null}
+                    <div> Number of Guests For This RSVP: {guestCount} </div>
                 </div>
             </div>
         )

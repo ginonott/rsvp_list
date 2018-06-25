@@ -2,6 +2,18 @@ import React, {Component} from 'react';
 import RSVPList from './RSVPList';
 import { firebase } from '@firebase/app';
 import '@firebase/firestore';
+import guestlist from './guestlist';
+
+function getGuestCountForGuest(name) {
+    let guests = guestlist.guests;
+    for (let i = 0; i < guests.length; i++) {
+        if (guests[i].name === name) {
+            return guests[i].guestCount
+        }
+    }
+
+    return 0;
+}
 
 class RSVPListGetter extends Component {
     constructor(props) {
@@ -29,7 +41,9 @@ class RSVPListGetter extends Component {
                     partyRsvp: doc.data.partyRsvp,
                     rsvped: doc.data.rsvped,
                     songReq: doc.data.songReq,
-                    plusOneName: doc.data.plusOneName
+                    plusOneName: doc.data.plusOneName,
+                    guestCount: (doc.data.guestCount || getGuestCountForGuest(doc.data.name))
+                        + (doc.data.bringingPlusOne ? 1 : 0)
                 })))
                 .then(guests => {
                     console.log(guests);
@@ -51,7 +65,7 @@ class RSVPListGetter extends Component {
             storageBucket: "wedding-f4d61.appspot.com",
             messagingSenderId: "692014919563"
           };
-          
+
         firebase.initializeApp(config); // eslint-dsiable-line no-undef
         const firestore = firebase.firestore();
         const settings = {timestampsInSnapshots: true};
@@ -63,13 +77,29 @@ class RSVPListGetter extends Component {
     render() {
         return (
             <div>
-                { this.state.status === 'loading' ? (<div className="loading"> Please Wait... </div>) 
+                { this.state.status === 'loading' ? (<div className="loading"> Please Wait... </div>)
                     : this.state.status === 'error' ? <div className="error"> Something went wrong, go get Gino </div>
-                    : 
-                    <div> 
-                        <button onClick={() => {this.refreshList()}}> Refresh List </button>
-                        <RSVPList rsvps={this.state.rsvplist}/> 
-                    </div>
+                    :
+                    [
+                        <div>
+                            <h2>
+                                Guest Count: <span> </span>
+                                {
+                                    this.state.rsvplist.reduce(
+                                    (cnt, guest) => cnt + guest.guestCount,
+                                    0
+                                )}
+                            </h2>
+                        </div>,
+                        <div>
+                            <button onClick={() => {this.refreshList()}}> Refresh List </button>
+                            <RSVPList rsvps={this.state.rsvplist}
+                                guestCount={this.state.rsvplist.reduce(
+                                    (cnt, guest) => cnt + guest.guestCount,
+                                    0
+                                )}/>
+                        </div>
+                    ]
                 }
             </div>
         )
