@@ -42,8 +42,10 @@ class RSVPListGetter extends Component {
                     rsvped: doc.data.rsvped,
                     songReq: doc.data.songReq,
                     plusOneName: doc.data.plusOneName,
-                    guestCount: (doc.data.guestCount || getGuestCountForGuest(doc.data.name))
-                        + (doc.data.bringingPlusOne ? 1 : 0)
+                    guestCount: doc.data.attending ?
+                        (doc.data.guestCount || getGuestCountForGuest(doc.data.name))
+                            + (doc.data.bringingPlusOne ? 1 : 0)
+                        : 0
                 })))
                 .then(guests => {
                     console.log(guests);
