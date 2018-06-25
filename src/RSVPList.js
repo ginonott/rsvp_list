@@ -3,7 +3,8 @@ import RSVP from './RSVP';
 
 const SORTS = {
     LAST_NAME: 'Last Name',
-    MOST_RECENT: 'Most Recent'
+    MOST_RECENT: 'Most Recent',
+    PENDING_RSVP: 'Pending RSVP'
 }
 
 class RSVPList extends Component {
@@ -81,11 +82,16 @@ class RSVPList extends Component {
                     <input placeholder="Search for guests here..." type="text" className="rsvp-search"
                         onChange={e => this.handleSearchChange(e)}/>
                 </div>
-                {rsvps.filter(rsvp => this.state.search.length > 0 ? rsvp.name.toUpperCase().includes(this.state.search) : true)
-                    .sort(this.sort)
-                    .map((rsvp, indx) => (
-                    <RSVP pColor={COLORS[indx % COLORS.length][0]} sColor={COLORS[indx % COLORS.length][1]} key={rsvp.id} {...rsvp}/>
-                    ))}
+                {
+                    this.state.sort === SORTS.PENDING_RSVP
+                    ? this.props.pendingRsvps.map((rsvp, indx) => (
+                        <RSVP pColor={COLORS[indx % COLORS.length][0]} sColor={COLORS[indx % COLORS.length][1]} key={rsvp.id} {...rsvp}/>
+                        ))
+                    : rsvps.filter(rsvp => this.state.search.length > 0 ? rsvp.name.toUpperCase().includes(this.state.search) : true)
+                        .sort(this.sort)
+                        .map((rsvp, indx) => (
+                        <RSVP pColor={COLORS[indx % COLORS.length][0]} sColor={COLORS[indx % COLORS.length][1]} key={rsvp.id} {...rsvp}/>
+                        ))}
             </div>
         )
     }

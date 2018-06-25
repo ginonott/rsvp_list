@@ -15,6 +15,25 @@ function getGuestCountForGuest(name) {
     return 0;
 }
 
+function rsvpListToMap(rsvpedGuests) {
+    return rsvpedGuests.reduce((map, guest) => {
+        map[guest.name] = guest;
+        return map;
+    }, {});
+}
+
+function getAwaitingRsvps(rsvpedGuests) {
+    let rsvpedGuestMap = rsvpListToMap(rsvpedGuests);
+    return guestlist.guests.filter(guest => !rsvpedGuestMap[guest.name])
+}
+
+function getExpectedRsvps(rsvpedGuests) {
+    let nonRsvpedGuests = getAwaitingRsvps(rsvpedGuests);
+    let nonRsvpedGuestCount = nonRsvpedGuests.reduce((cnt, guest) => cnt + guest.guestCount + (guest.hasPlusOne ? 1 : 0), 0);
+    let rsvpedGuestCount = rsvpedGuests.reduce((cnt, guest) => cnt + guest.guestCount, 0);
+    return  nonRsvpedGuestCount + rsvpedGuestCount;
+}
+
 class RSVPListGetter extends Component {
     constructor(props) {
         super(props);
@@ -48,7 +67,6 @@ class RSVPListGetter extends Component {
                         : 0
                 })))
                 .then(guests => {
-                    console.log(guests);
                     this.setState({rsvplist: guests, status: 'done'});
                 })
                 .catch(e => {
@@ -90,12 +108,12 @@ class RSVPListGetter extends Component {
                                     this.state.rsvplist.reduce(
                                     (cnt, guest) => cnt + guest.guestCount,
                                     0
-                                )}
+                                )} / {getExpectedRsvps(this.state.rsvplist)}
                             </h2>
                         </div>,
                         <div>
                             <button onClick={() => {this.refreshList()}}> Refresh List </button>
-                            <RSVPList rsvps={this.state.rsvplist}
+                            <RSVPList rsvps={this.state.rsvplist} pendingRsvps={getAwaitingRsvps(this.state.rsvplist)}
                                 guestCount={this.state.rsvplist.reduce(
                                     (cnt, guest) => cnt + guest.guestCount,
                                     0
