@@ -21,9 +21,9 @@ export default {
       "guestCount": 2
     },
     {
-      "name": "Kenyon, Amy, Derek, Gavin, Tyler",
+      "name": "Kenyon, Amy, Derek, Gavin, Tyler, Austin",
       "hasPlusOne": false,
-      "guestCount": 4
+      "guestCount": 5
     },
     {
       "name": "Whiteside, Jeanne, Billy Cobb, Emily Cobb, Ami Unterburger",
@@ -297,11 +297,6 @@ export default {
     },
     {
       "name": "Simson, Mark and Dana Ruh",
-      "hasPlusOne": false,
-      "guestCount": 2
-    },
-    {
-      "name": "Michael and Debbie Lawless",
       "hasPlusOne": false,
       "guestCount": 2
     }
