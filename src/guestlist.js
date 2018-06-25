@@ -53,7 +53,7 @@ export default {
     {
       "name": "Atherton, Brad and Bonnie",
       "hasPlusOne": false,
-      "guestCount": 3
+      "guestCount": 2
     },
     {
       "name": "Atherton, Denise and Tim",
