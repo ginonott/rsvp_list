@@ -25,12 +25,18 @@ function rsvpListToMap(rsvpedGuests) {
 function getAwaitingRsvps(rsvpedGuests) {
     let rsvpedGuestMap = rsvpListToMap(rsvpedGuests);
     return guestlist.guests.filter(guest => !rsvpedGuestMap[guest.name])
+        .map(guest => ({
+            ...guest,
+            guestCount: guest.guestCount + (guest.hasPlusOne ? 1 : 0),
+            bringingPlusOne: guest.hasPlusOne
+        }))
 }
 
 function getExpectedRsvps(rsvpedGuests) {
     let nonRsvpedGuests = getAwaitingRsvps(rsvpedGuests);
-    let nonRsvpedGuestCount = nonRsvpedGuests.reduce((cnt, guest) => cnt + guest.guestCount + (guest.hasPlusOne ? 1 : 0), 0);
+    let nonRsvpedGuestCount = nonRsvpedGuests.reduce((cnt, guest) => cnt + guest.guestCount, 0);
     let rsvpedGuestCount = rsvpedGuests.reduce((cnt, guest) => cnt + guest.guestCount, 0);
+
     return  nonRsvpedGuestCount + rsvpedGuestCount;
 }
 

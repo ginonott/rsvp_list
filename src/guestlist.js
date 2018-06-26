@@ -177,7 +177,7 @@ export default {
     },
     {
       "name": "Acquilina, Bobbie",
-      "hasPlusOne": false,
+      "hasPlusOne": true,
       "guestCount": 1
     },
     {
@@ -192,7 +192,7 @@ export default {
     },
     {
       "name": "Incorvaia, Paul",
-      "hasPlusOne": false,
+      "hasPlusOne": true,
       "guestCount": 1
     },
     {
