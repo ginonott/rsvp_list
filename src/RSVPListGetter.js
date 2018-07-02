@@ -46,8 +46,7 @@ class RSVPListGetter extends Component {
 
         this.state = {
             rsvplist: [],
-            status: 'loading',
-            interval: setInterval(this.refreshList.bind(this, true), 15000)
+            status: 'loading'
         }
     }
 
@@ -119,9 +118,6 @@ class RSVPListGetter extends Component {
                             </h2>
                         </div>,
                         <div>
-                            <i> This list auto-refreshes every 15 seconds </i>
-                            <br/>
-                            <br/>
                             <button onClick={this.refreshList.bind(this, true)}> Refresh Now </button>
                             <RSVPList rsvps={this.state.rsvplist} pendingRsvps={getAwaitingRsvps(this.state.rsvplist)}
                                 guestCount={this.state.rsvplist.reduce(
