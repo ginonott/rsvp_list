@@ -46,13 +46,14 @@ class RSVPListGetter extends Component {
 
         this.state = {
             rsvplist: [],
-            status: 'loading'
+            status: 'loading',
+            interval: setInterval(this.refreshList.bind(this, true), 15000)
         }
     }
 
-    refreshList() {
+    refreshList(isRefreshing = false) {
         var db = firebase.firestore();
-        this.setState({status: 'loading'}, () => {
+        this.setState({status: isRefreshing ? 'refreshing' : 'loading'}, () => {
             db.collection("rsvp_list")
                 .get()
                 .then(resp => resp.docs)
@@ -73,10 +74,10 @@ class RSVPListGetter extends Component {
                         : 0
                 })))
                 .then(guests => {
-                    this.setState({rsvplist: guests, status: 'done'});
+                    this.setState({rsvplist: guests, status: 'done', lastRefreshed: new Date()});
                 })
                 .catch(e => {
-                    console.error('Oh no!', e);
+                    console.error('Oh no! Tell Gino about this!', e);
                     this.setState({status: 'error'})
                 })
         })
@@ -118,7 +119,10 @@ class RSVPListGetter extends Component {
                             </h2>
                         </div>,
                         <div>
-                            <button onClick={() => {this.refreshList()}}> Refresh List </button>
+                            <i> This list auto-refreshes every 15 seconds </i>
+                            <br/>
+                            <br/>
+                            <button onClick={this.refreshList.bind(this, true)}> Refresh Now </button>
                             <RSVPList rsvps={this.state.rsvplist} pendingRsvps={getAwaitingRsvps(this.state.rsvplist)}
                                 guestCount={this.state.rsvplist.reduce(
                                     (cnt, guest) => cnt + guest.guestCount,
