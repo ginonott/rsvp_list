@@ -13,12 +13,13 @@ class RSVP extends Component {
             songReq = '',
             pColor = 'white',
             sColor = 'white',
-            guestCount = 0
+            guestCount = 0,
+            emoji = ''
         } = this.props;
         return (
             <div className="rsvp" style={{marginTop: '1em'}}>
                 <div className="rsvp-title" style={{'backgroundColor': pColor}}>
-                    <span className="rsvp-name"> {name} {bringingPlusOne ? <span className="rsvp-has-plus-one"> +1 </span> : null} </span>
+                    <span className="rsvp-name"> {emoji} {name} {bringingPlusOne ? <span className="rsvp-has-plus-one"> +1 </span> : null} </span>
                     {attending === 'yes'
                         ? <span className="fas fa-check rsvp-attending yes"/>
                         : attending === 'no'

@@ -4,6 +4,12 @@ import { firebase } from '@firebase/app';
 import '@firebase/firestore';
 import guestlist from './guestlist';
 
+let possibleEmojis = [
+    '🐶', '🐱', '🐭', '🐹', '🐰', '🦊', '🐻',
+    '🐼', '🐨', '🐯', '🦁', '🐮', '🐷', '🐽',
+    '🐸', '🐵', '🐔', '🐧', '🐦', '🐤', '🐣',
+    '🐥', '🦆', '🦅', '🦉', '🦇', '🐴', '🦄']
+
 function getGuestCountForGuest(name) {
     let guests = guestlist.guests;
     for (let i = 0; i < guests.length; i++) {
@@ -70,7 +76,8 @@ class RSVPListGetter extends Component {
                     guestCount: doc.data.attending === 'yes' ?
                         (doc.data.guestCount || getGuestCountForGuest(doc.data.name))
                             + (doc.data.bringingPlusOne ? 1 : 0)
-                        : 0
+                        : 0,
+                    emoji: possibleEmojis[Math.floor(Math.random() * possibleEmojis.length)]
                 })))
                 .then(guests => {
                     this.setState({rsvplist: guests, status: 'done', lastRefreshed: new Date()});
