@@ -4,7 +4,8 @@ import RSVP from './RSVP';
 const SORTS = {
     LAST_NAME: 'Last Name',
     MOST_RECENT: 'Most Recent',
-    PENDING_RSVP: 'Pending RSVP'
+    PENDING_RSVP: 'Pending RSVP',
+    NOT_ATTENDING: 'Not Attending First'
 }
 
 class RSVPList extends Component {
@@ -52,10 +53,25 @@ class RSVPList extends Component {
         return 0;
     }
 
+    sortByNotAttending(a, b) {
+        if (a.attending === b.attending) {
+            return 0;
+        }
+
+        if (a.attending === 'no' && b.attending === 'yes') {
+            return -1;
+        }
+
+        return 1;
+    }
+
     sort = (a, b) => {
         if (this.state.sort === SORTS.LAST_NAME) {
             return this.sortByLastName(a, b);
-        } else {
+        } else if (this.state.sort === SORTS.NOT_ATTENDING) {
+            return this.sortByNotAttending(a, b);
+        }
+        else {
             return this.sortByMostRecent(a, b);
         }
     }
