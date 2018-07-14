@@ -76,6 +76,20 @@ class RSVPList extends Component {
         }
     }
 
+    hasDups = rsvpList => {
+        let dups = false;
+        let dupMap = {};
+        rsvpList.forEach(rsvp => {
+            if (dupMap[rsvp.name]) {
+                dups = true;
+            }
+
+            dupMap[rsvp.name] = true;
+        });
+
+        return dups;
+    }
+
     render() {
         const COLORS = [
             ['#FFCDD2', '#FFEBEE'],
@@ -97,6 +111,9 @@ class RSVPList extends Component {
                     </select>
                     <input placeholder="Search for guests here..." type="text" className="rsvp-search"
                         onChange={e => this.handleSearchChange(e)}/>
+                </div>
+                <div>
+                    {this.hasDups(rsvps) ? <h2> Duplicate RSVPs in the list! </h2> : null}
                 </div>
                 {
                     this.state.sort === SORTS.PENDING_RSVP
